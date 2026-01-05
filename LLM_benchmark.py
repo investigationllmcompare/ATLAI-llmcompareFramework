@@ -118,7 +118,7 @@ def models_benchmarking(model_provider_pairs, datasets):
         print(f"\n🔍 Evaluating model: {model_name} (provider: {provider})")
         for dataset_func in datasets:
             dataset_name = dataset_func.__name__
-            print(f"📂 Dataset: {dataset_name}")
+            print(f"[] Dataset: {dataset_name}")
 
             start = time.time()
             try:
@@ -134,7 +134,7 @@ def models_benchmarking(model_provider_pairs, datasets):
                         metrics[key] = value
 
             except Exception as e:
-                print(f"❌ Error evaluating {model_name} on {dataset_name}: {e}")
+                print(f"X Error evaluating {model_name} on {dataset_name}: {e}")
                 metrics = {}
 
             end = time.time()
@@ -169,7 +169,7 @@ def models_benchmarking(model_provider_pairs, datasets):
                                  values="value",
                                  aggfunc="first").reset_index()
 
-    print("\n📊 Model Evaluation Comparison:\n")
+    print("\n## Model Evaluation Comparison:\n")
     return pivoted
 
 def evaluate_mmlu(model_name, provider):
@@ -246,7 +246,7 @@ Respond with only the number (0, 1, 2, or 3) corresponding to the correct answer
         total_count += 1
 
         print(f"Q{idx}: Subject = {subject} | Model Answer = {model_answer.strip()} | "
-              f"Correct Answer = {correct_answer} | {'✅ Correct' if is_correct else '❌ Incorrect'}")
+              f"Correct Answer = {correct_answer} | {'V Correct' if is_correct else 'X Incorrect'}")
 
     # Final accuracy computation
     overall_accuracy = total_correct / total_count
@@ -409,7 +409,7 @@ def evaluate_race(model_name, provider):
 
     # Safety check
     if len(middle_examples) < num_middle or len(high_examples) < num_high:
-        print("⚠️ Not enough middle or high school samples to meet the required limit.")
+        print("! Not enough middle or high school samples to meet the required limit. !")
         return {"accuracy": None, "samples": 0}
 
     # Sample from both groups
@@ -431,7 +431,7 @@ def evaluate_race(model_name, provider):
         answer = letter_to_index.get(answer_letter)
 
         if answer is None:
-            print(f"⚠️ Invalid answer format: {item['answer']}")
+            print(f"! Invalid answer format: {item['answer']} !")
             continue
 
         prompt = f"""Read the following passage and answer this multiple choice question. 
@@ -564,12 +564,12 @@ def evaluate_pdf_summaries(model, provider, output_path="pdf_summaries.csv"):
     results = []
 
     if not pdf_files:
-        print("⚠️ No PDF files found in the folder.")
+        print("! No PDF files found in the folder !")
         return pd.DataFrame()
 
     # Process each PDF file
     for idx, pdf_path in enumerate(pdf_files, start=1):
-        print(f"\n📘 Processing paper {idx}/{len(pdf_files)}: {os.path.basename(pdf_path)}")
+        print(f"\nPp Processing paper {idx}/{len(pdf_files)}: {os.path.basename(pdf_path)}")
         paper_text = extract_text_from_pdf(pdf_path)
 
         # Construct the prompt for the model
@@ -604,7 +604,7 @@ Summary:"""
     else:
         summary_df.to_csv(output_path, index=False)
 
-    print(f"\n✅ Summaries saved to {output_path}")
+    print(f"\nV Summaries saved to {output_path}")
     return summary_df
 
 DATASET_FUNCTIONS = {
@@ -656,13 +656,14 @@ if __name__ == "__main__":
         if name == "pdf_summaries":
             for model, provider in model_provider_pairs:
                 evaluate_pdf_summaries(model, provider)
-            print("✅ PDF summarization completed.")
+            print("V PDF summarization completed.")
         else:
             selected_datasets.append(DATASET_FUNCTIONS[name])
 
     if selected_datasets:
         result_table = models_benchmarking(model_provider_pairs, selected_datasets)
         result_table.to_csv(args.output, index=False)
-        print(f"\n✅ Results saved to {args.output}")
+        print(f"\nV Results saved to {args.output}")
+
 
 
