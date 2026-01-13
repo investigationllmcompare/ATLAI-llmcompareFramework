@@ -1,4 +1,4 @@
-$ ATLAI - Assessment Toolkit for Language AI
+# ATLAI - Assessment Toolkit for Language AI
 ## a LLM Benchmarking Framework
 
 A Python framework for **benchmarking multiple Large Language Models (LLMs)** across various NLP datasets and tasks — including MMLU, SQuAD, TruthfulQA, RACE, CNN/DailyMail, and more.  
