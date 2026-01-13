@@ -21,7 +21,7 @@ Supports **OpenAI**, **Ollama**, and **Anthropic** model providers.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/llm-benchmarking.git
+git clone https://github.com/investigationllmcompare/ATLAI-llmcompareFramework.git
 cd llm-benchmarking
 
 # Create virtual environment (optional)
